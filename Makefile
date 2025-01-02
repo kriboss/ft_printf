@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kbossio <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: kbossio <kbossio@student.42firenze.it>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/02 11:19:36 by kbossio           #+#    #+#              #
-#    Updated: 2024/12/02 13:06:06 by kbossio          ###   ########.fr        #
+#    Updated: 2025/01/02 21:13:23 by kbossio          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,24 +15,28 @@ NAME = libftprintf.a
 CC = gcc -Wall -Wextra -Werror
 
 FILES =	ft_printf.c ft_printf_utils.c
+BFILES = bonus/ft_printf_bonus.c bonus/ft_printf_string_bonus.c bonus/arg_check_bonus.c bonus/utils_bonus.c bonus/flags_bonus.c
 
 OBJS = ${FILES:.c=.o}
-
-${NAME}:
-	${CC} -c ${FILES}
-	ar -rcs ${NAME} ${OBJS}
-
-%.o: %.c
-	${CC} ${FILES} -c $< -o $@
+BOBJS = ${BFILES:.c=.o}
 
 all: ${NAME}
 
+${NAME}: ${OBJS}
+	ar -rcs ${NAME} ${OBJS}
+
+bonus: fclean $(BOBJS)
+	ar -rcs	$(NAME)	$(BOBJS)
+
+%.o: %.c
+	${CC} -c $< -o $@
+
 clean:
-	rm -f ${OBJS}
+	rm -f ${OBJS} ${BOBJS}
 
 fclean: clean
 	rm -f ${NAME}
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re
+.PHONY: all bonus clean fclean re
