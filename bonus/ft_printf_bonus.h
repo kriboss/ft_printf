@@ -6,7 +6,7 @@
 /*   By: kbossio <kbossio@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:56:28 by kbossio           #+#    #+#             */
-/*   Updated: 2025/01/02 22:50:58 by kbossio          ###   ########.fr       */
+/*   Updated: 2025/01/03 01:25:34 by kbossio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_printf
 }	s_printf;
 
 int		ft_printf(const char *format, ...);
+void	check_flags(const char *opt, const char *f, s_printf *flags);
 
 size_t	ft_putnbr_base(ssize_t nbr, char *base, const char type, char **flags);
 size_t	ft_putstr_fd(const char *s);

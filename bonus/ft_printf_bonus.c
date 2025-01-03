@@ -6,7 +6,7 @@
 /*   By: kbossio <kbossio@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:56:22 by kbossio           #+#    #+#             */
-/*   Updated: 2025/01/02 21:00:58 by kbossio          ###   ########.fr       */
+/*   Updated: 2025/01/03 01:33:46 by kbossio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 
-size_t	conv(const char type, va_list args, char **flags)
+size_t	conv(const char type, va_list args, s_printf *flags)
 {
 	char	*lhex;
 	char	*uhex;
@@ -47,66 +47,24 @@ size_t	conv(const char type, va_list args, char **flags)
 int	ft_printf(const char *format, ...)
 {
 	char	*type;
-	char	**flags;
 	char	*opt;
 	int		i;
 	int		j;
 	int		count;
 	va_list	args;
+	s_printf *flags;
 
 	va_start(args, format);
 	type = "cspdiuxX%";
 	i = 0;
 	count = 0;
 	opt = "-0.# +";
-	flags = malloc(3 * sizeof(char *));
-    if (!flags)
-        return (0);
-    flags[0] = malloc(32 * sizeof(char));
-    flags[1] = malloc(32 * sizeof(char));
-    flags[2] = malloc(32 * sizeof(char));
-    if (!flags[0] || !flags[1] || !flags[2])
-    {
-        free(flags[0]);
-        free(flags[1]);
-        free(flags[2]);
-        free(flags);
-        return (0);
-    }
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
-			j = 0;
-			while (j < 3 && flags[j])
-			{
-				ft_memset(flags[j], 0, 32);
-				j++;
-			}
-			j = 0;
-			while (ft_strchr(opt, format[i + 1]))
-			{
-				flags[0][j++] = format[i + 1];
-				i++;
-			}
-			flags[0][j] = '\0';
-			j = 0;
-			while (isnumber(format[i + 1]))
-			{
-				flags[1][j++] = format[i + 1];
-				i++;
-			}
-			flags[1][j] = '\0';
-			if (format[i + 1] == '.')
-			{
-				j = 0;
-				while (isnumber(format[i + 1]))
-				{
-					flags[2][j++] = format[i + 1];
-					i++;
-				}
-				flags[2][j] = '\0';
-			}
+			check_flags(opt, format + i, flags);
+			break;
 			if(ft_strchr(type, format[i + 1]))
 			{
 				count += conv(format[i + 1], args, flags);
@@ -117,10 +75,6 @@ int	ft_printf(const char *format, ...)
 			count += ft_putchar_fd(format[i]);
 		i++;
 	}
-	free(flags[0]);
-	free(flags[1]);
-	free(flags[2]);
-	free(flags);
 	va_end(args);
 	return (count);
 }

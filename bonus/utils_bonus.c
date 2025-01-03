@@ -6,7 +6,7 @@
 /*   By: kbossio <kbossio@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 15:56:54 by kbossio           #+#    #+#             */
-/*   Updated: 2025/01/03 00:18:15 by kbossio          ###   ########.fr       */
+/*   Updated: 2025/01/03 01:29:30 by kbossio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,44 @@ s_printf	*init_flags(void)
 	flags->space = 0;
 	flags->plus = 0;
 	return (flags);
+}
+
+void	check_flags(const char *opt, const char *f, s_printf *flags)
+{
+	int	i;
+
+	i = 0;
+	while (ft_strchr(opt, f[i + 1]))
+	{
+		if (f[i + 1] == '-')
+			flags->minus = 1;
+		else if (f[i + 1] == '0')
+			flags->zero = 1;
+		else if (f[i + 1] == '#')
+			flags->hash = 1;
+		else if (f[i + 1] == ' ')
+			flags->space = 1;
+		else if (f[i + 1] == '+')
+			flags->plus = 1;
+		i++;
+	}
+	while (isnumber(f[i + 1]))
+	{
+		flags->width = flags->width * 10 + (f[i + 1] - 48);
+		i++;
+	}
+	if (f[i + 1] == '.')
+	{
+		flags->precision = 0;
+		while (isnumber(f[i + 2]))
+		{
+			flags->precision = flags->precision * 10 + (f[i + 2] - 48);
+			i++;
+		}
+	}
+	printf("Flags: -%d 0%d #%d %d +%d Width: %d Precision: %d\n", 
+		flags->minus, flags->zero, flags->hash, flags->space, flags->plus, 
+		flags->width, flags->precision);
 }
 
 int	ft_atoi(const char *str)
