@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_bonus.h                                  :+:      :+:    :+:   */
+/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbossio <kbossio@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/03 17:32:10 by kbossio           #+#    #+#             */
-/*   Updated: 2025/01/03 17:40:05 by kbossio          ###   ########.fr       */
+/*   Created: 2025/01/03 17:34:48 by kbossio           #+#    #+#             */
+/*   Updated: 2025/01/03 17:42:22 by kbossio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_BONUS_H
-# define FT_PRINTF_BONUS_H
+#include "ft_printf_bonus.h"
 
-# define TYPE "cspdiuxX%"
-
-# include <unistd.h>
-# include <stdarg.h>
-
-typedef struct s_flags
+int ft_strchr(const char *s, int c)
 {
-	int		minus;
-	int		zero;
-	int		width;
-	int		precision;
-	int		star;
-	int		type;
-}				t_flags;
+	while (*s)
+	{
+		if (*s == c)
+			return (1);
+		s++;
+	}
+	return (0);
+}
 
-#endif
+int	ft_putchar(char c)
+{
+	write(1, &c, 1);
+	return (1);
+}
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
